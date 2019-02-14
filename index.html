@@ -3,6 +3,52 @@
 <head>
 	<title>JSON & AJAX</title>
 	<link rel="stylesheet" type="text/css" href="ok.css">
+	<script type="text/javascript">
+		function loadData()
+		{
+			//crear pretición
+			let xhr=new XMLHttpRequest();
+
+			xhr.open("GET", "https://gerhard1902.github.io/practica-json/prueba.json");
+			xhr.onreadystatechange=function(){
+				console.log(this.readyState, this.status, this.statusText);
+			}
+			//procesar petición
+			xhr.onload=function()
+			{
+				//evaluar si mi info ya llegó para cambiar el text
+				if (this.readyState===4 && this.status===200)//this es mi respuesta
+				{
+					//cambiar texto
+					//console.log(this.responseText);
+					let data= JSON.parse(this.responseText);
+					let emptyDiv=document.getElementById("loaded-info");
+
+					console.log(data);
+					let html="";
+					data.forEach(function(persona){
+						html+="<p>"
+						html+=persona.nombre+ " "+ persona.apellido
+						html+="<p>"
+					});
+					emptyDiv.insertAdjacentHTML("beforeend",html);
+					//esconder el botón
+
+				}else
+				{
+					//la información no llegó
+					alert("ERROR: "+this.status);
+
+				}
+
+			}
+			//enviar petición
+			xhr.send();
+			
+			//modificar contenido html
+			//
+		}
+	</script>
 </head>
 <body>
 	<h1>JSON & AJAX</h1>
@@ -11,15 +57,6 @@
 		Mostrar info sin recargar la pantalla
 	</button>
 	<div id="loaded-info"></div>
-	<script type="text/javascript">
-		function loadData()
-		{
-			//crear pretición
-			//procesar petición
-			//enviar peticións
-			//modificar contenido html
-			//
-		}
-	</script>
+	
 </body>
 </html>
